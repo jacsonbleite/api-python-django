@@ -1,0 +1,147 @@
+# API em Python com  Django
+Nesse exemplo será utilizado o banco de dados SQLite
+
+
+#### Instalando o virtaulenv (Caso não tenha instalado)
+Precisaremos do virtalenv para criação de nosso ambite virtal
+Todas as dependência do projetos estarão isoladas nesse ambiente.
+
+```
+pip install virtualenv
+```
+
+#### Criando ambiente virtual 
+```
+python3 -m venv ./venv
+```
+
+#### Ativando ambiente virtual
+
+No Linux e macOS
+```
+source venv/bin/activate
+```
+
+No Windows
+```
+source venv/Script/Activate
+```
+
+#### Istalando Django em nosso ambiente
+
+```
+pip install django
+```
+
+#### Configuração do projeto com Django
+```
+django-admin manage.py startproject config .
+```
+
+#### Iniciando o servidor
+```
+python manage.py runserver
+```
+
+#### Criando o app 
+```
+python manage.py startapp escola
+```
+
+#### Model Aluno no projeto 
+```
+caminho escola/models.py
+```
+
+``` 
+class Aluno (models.Model):
+    nome = models.CharField(max_length=30)
+    rg = models.CharField(max_length=9)
+
+    def __str__(self) -> str:
+        return self.nome
+```
+
+#### Configurando o app escola na aplicação
+abra o arquivo settings.py que fica dentro da pasta config
+e inclua em _INSTALLED_APPS_o aplicativo escola(nosso caso)
+```
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'escola'
+]
+```
+
+#### Migration do model Aluno
+```
+python manage.py makemigrations
+```
+
+#### Enviado nosso migration para o DB
+```
+python manage.py migrate
+```
+
+#### Criando admin do projeto
+```
+python manage.py createsuperuser
+```
+
+
+#### Admin Aluno
+Aquivo *escola/admin.py*
+```
+from escola.models import Aluno
+
+class Alunos(admin.ModelAdmin):
+    list_display = ('id', 'nome', 'rg')
+    list_display_links = ('id', 'nome')
+    search_fields = ('nome',)
+
+admin.site.register(Aluno, Alunos)
+```
+
+#### Instalando do Django REST Framework
+```
+pip install djangorestframework
+```
+
+
+#### Configurando o Django Rest Framework na aplicação
+abra o arquivo settings.py que fica dentro da pasta config
+e inclua em _INSTALLED_APPS_ '*rest_framework*'
+
+```
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'escola',
+    'rest_framework'
+]
+```
+
+#### serializer.py
+O serializer será resposável por tranformar as informações da API para o formato que o python e o
+Banco de dados entenda e ao contrário, também.
+Crie dentro da pasta escola
+
+
+#### urls.py
+Incluir rotas no arquivo de rotas do projeto 
+*config/urls.py*
+
+
+
+#### Verificando as dependências do projeto
+```
+pip install freeze
+```
